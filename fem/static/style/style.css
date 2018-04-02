@@ -1,0 +1,48 @@
+body{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#coeficientMatrix {
+  float: left;
+}
+
+#constantMatrix {
+  float: left;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+#heatmap {
+  width: 600px;
+  height: 600px;
+  border: 0.5px solid black;
+}
+
+#input-data-container {
+  padding: 50px;
+  width: 30%;
+}
+
+.lead { 
+  margin-bottom: 0px;
+}
+
+#results-container {
+  padding: 30px;
+}
+
+#title {
+  padding-left: 20px;
+}
+
+.matrix {
+  width: fit-content;
+  text-align: right;
+}
+
+.temperature-input {
+  display: inline-flex;
+}
