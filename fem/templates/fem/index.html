@@ -1,109 +1,89 @@
-<html>
+{% extends "fem/base.html" %}
+{% block content %}
+<div id="title">
+  <h1 class="display-5">Trabajo Pr&aacute;ctico C&aacute;lculo por Elementos Finitos</h1>
+  <p class="lead">C&aacute;lculo de la tempertura en una placa plana.</p>
+</div>
 
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="./static/style/style.css">
-    <script src="./static/jquery/dist/jquery.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="./static/heatmap.js/build/heatmap.js"></script>
-    <script src="./static/decimal.js/decimal.js"></script>
-    <script src="./static/mathjs/dist/math.js"></script>
-    <script src="./static/src/main.js"></script>
-    <script src="./static/src/matrix.js"></script>
-    <script src="./static/src/method.js"></script>
-    <script src="./static/src/render.js"></script>
-  </head>
-
-  <body>
-    <div id="title">
-      <h1 class="display-5">Trabajo Pr&aacute;ctico C&aacute;lculo por Elementos Finitos</h1>
-      <p class="lead">C&aacute;lculo de la tempertura en una placa plana.</p>
-    </div>
-
-    <div class="input-data-heatmap-container">
-      <div class="row">
-        
-        <div id="input-data-container" class="col-sm-4">
-          <div class="form-group">
-            <label class="col-form-label" for="method">M&eacute;todo</label>
-            <select id="method" class="form-control form-control-sm">
-                <option value="finite-difference">Diferencias Finitas</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="col-form-label" for="size">
-              Tamaño
-              <span data-toggle="tooltip" data-placement="right" title="Cantidad de Nodos en los laterales.">
-                  <i class="fa fa-question-circle" aria-hidden="true"></i>
-              </span>
-            </label>
-            <input id="size" class="form-control form-control-sm" value="4" type="number">
-          </div>
-          
-          <div id="temperatures-container">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label class="col-form-label" for="top">Temperatura Superior</label>
-                <div class="temperature-input">
-                  <input id="top" class="form-control form-control-sm" value="20" type="number">
-                  <span>°C</span>
-                </div>
-              </div>
-              <div class="form-group col-md-6">
-                <label class="col-form-label" for="right">Temperatura Derecha</label>
-                <div class="temperature-input">
-                  <input id="right" class="form-control form-control-sm" value="30" type="number">
-                  <label>°C</label>
-                </div>
-              </div>
+<div class="input-data-heatmap-container">
+  <div class="row">
+    
+    <div id="input-data-container" class="col-sm-4">
+      <div class="form-group">
+        <label class="col-form-label" for="method">M&eacute;todo</label>
+        <select id="method" class="form-control form-control-sm">
+            <option value="finite-difference">Diferencias Finitas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="col-form-label" for="size">
+          Tamaño
+          <span data-toggle="tooltip" data-placement="right" title="Cantidad de Nodos en los laterales.">
+              <i class="fa fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input id="size" class="form-control form-control-sm" value="4" type="number">
+      </div>
+      
+      <div id="temperatures-container">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="top">Temperatura Superior</label>
+            <div class="temperature-input">
+              <input id="top" class="form-control form-control-sm" value="20" type="number">
+              <span>°C</span>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label class="col-form-label" for="bottom">Temperatura Inferior</label>
-                <div class="temperature-input">
-                  <input id="bottom" class="form-control form-control-sm" value="40" type="number">
-                  <label>°C</label>
-                </div>
-              </div>
-              <div class="form-group col-md-6">
-                <label class="col-form-label" for="left">Temperatura Izquierda</label>
-                <div class="temperature-input">
-                  <input id="left" class="form-control form-control-sm" value="50" type="number">
-                  <label>°C</label>
-                </div>
-              </div>  
-            </div>  
           </div>
-
-          <button id="run" class="btn btn-dark">RUN</button>
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="right">Temperatura Derecha</label>
+            <div class="temperature-input">
+              <input id="right" class="form-control form-control-sm" value="30" type="number">
+              <label>°C</label>
+            </div>
+          </div>
         </div>
-        
-        <div class="container col-sm-8">
-            <div id="heatmap"></div>
-        </div>
-        
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="bottom">Temperatura Inferior</label>
+            <div class="temperature-input">
+              <input id="bottom" class="form-control form-control-sm" value="40" type="number">
+              <label>°C</label>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="left">Temperatura Izquierda</label>
+            <div class="temperature-input">
+              <input id="left" class="form-control form-control-sm" value="50" type="number">
+              <label>°C</label>
+            </div>
+          </div>  
+        </div>  
       </div>
-    </div>
-    <div>
-      <div id="results-container" class="row">
-        <div class="col-sm-6">
-            <p class="lead" >Matriz de Coeficientes</p>
-          <table id="coeficientMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
-        </div>
-        <div class="col-sm-2">
-          <p class="lead" >Terminos Independientes</p>
-          <table id="constantMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
-        </div>
-        <div class="col-sm-4 ">
-          <p class="lead">Matriz de Temperaturas</p>
-          <table id="finalMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
-        </div>
-      </div>
 
+      <button id="run" class="btn btn-dark">RUN</button>
     </div>
-  </body>
+    
+    <div class="container col-sm-8">
+        <div id="heatmap"></div>
+    </div>
+    
+  </div>
+</div>
+<div>
+  <div id="results-container" class="row">
+    <div class="col-sm-6">
+        <p class="lead" >Matriz de Coeficientes</p>
+      <table id="coeficientMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
+    </div>
+    <div class="col-sm-2">
+      <p class="lead" >Terminos Independientes</p>
+      <table id="constantMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
+    </div>
+    <div class="col-sm-4 ">
+      <p class="lead">Matriz de Temperaturas</p>
+      <table id="finalMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
+    </div>
+  </div>
 
-</html>
+</div>
+{% endblock content %}

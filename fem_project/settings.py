@@ -127,7 +127,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, "fem\static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"),
 ]
-
-print('------------------------------------')
-print(STATIC_ROOT)
-print('------------------------------------')
