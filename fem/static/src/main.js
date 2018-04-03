@@ -15,11 +15,14 @@ function createHeatmap(){
 }
 
 
+
+
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip()
   createHeatmap();
   $("#results-container").hide()
-
+  
+  /* 
   $("#run").click(function() {
     $("#heatmap").empty();
 
@@ -36,6 +39,38 @@ $(document).ready(function() {
       console.log(getNodeByIndexes(finalMatrix, x, y));
     });
     renderHeatmap(createHeatmap, finalMatrix, screenSize);
-  });
+  }); */
 
+});
+
+//------------------------------------------
+//New Main----------------------------------
+//------------------------------------------
+
+$( document ).ready(function() {
+  $("#run").click(function () {
+      var size = $("#size").val();
+      var top = $("#top").val();
+      var right = $("#right").val();
+      var bottom = $("#bottom").val();
+      var left = $("#left").val();
+      
+      $.ajax({
+        url: '/ajax/calculate_temperatures/',
+        data: {
+          'size': size,
+          'top': top,
+          'right': right,
+          'bottom': bottom,
+          'left': left
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data) {
+            console.log(data);
+          }
+        }
+      });
+
+    });
 });

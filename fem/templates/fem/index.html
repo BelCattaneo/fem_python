@@ -1,6 +1,7 @@
 {% extends "fem/base.html" %}
 
 {% block content %}
+
 <div id="title">
   <h1 class="display-5">Trabajo Pr&aacute;ctico C&aacute;lculo por Elementos Finitos</h1>
   <p class="lead">C&aacute;lculo de la tempertura en una placa plana.</p>
@@ -85,6 +86,8 @@
       <table id="finalMatrix" class="table table-bordered matrix" style="width: fit-content"></table>
     </div>
   </div>
-
+  {{ data }}
 </div>
 {% endblock content %}
+
+
