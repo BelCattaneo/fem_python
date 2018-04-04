@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 import numpy as np
 import functools
 
+from . import plots
+
 def index(request):
     return render_to_response('fem/index.html')
 
@@ -15,19 +17,24 @@ def calculate_temperatures(request):
         'bottom' : int(request.GET.get('bottom')),
         'left' : int(request.GET.get('left'))
     }
-    diferencias_finitas(temperatures, size)
+    results = diferencias_finitas(temperatures, size)
+
+    file_url = plots.create_plot(results)
 
     context =  {
-        'size' : size
+        'fileUrl' : file_url
     }
     return JsonResponse(context)
+
+
 
 def diferencias_finitas(temperatures, size):
     matrix = create_matrix_from_inputs(temperatures, size)
     constant_matrix = build_constant_matrix(matrix)
     coeficient_matrix = build_coeficient_matrix(constant_matrix, matrix)
     results = get_results(constant_matrix, coeficient_matrix)
-    print(results)
+    #print(results)
+    return results
 
 def create_matrix_from_inputs(temperatures, size):
     matrix = np.zeros((size, size), dtype=np.int)

@@ -67,7 +67,8 @@ $( document ).ready(function() {
         dataType: 'json',
         success: function (data) {
           if (data) {
-            console.log(data);
+            console.log(data.fileUrl);
+            $("#plot").attr("src", data.fileUrl)
           }
         }
       });
