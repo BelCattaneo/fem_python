@@ -5,7 +5,7 @@ import numpy as np
 import functools
 
 from . import plots
-from . import finite_difference as fd
+from . import finite_difference
 
 def index(request):
     return render_to_response('fem/index.html')
@@ -22,7 +22,7 @@ def calculate_temperatures(request):
     method = request.GET.get('method')
 
     if method == 'diferencias_finitas':
-        results = fd.diferencias_finitas(temperatures, source, size)
+        results = finite_difference.diferencias_finitas(temperatures, source, size)
         file_url = plots.create_plot(results)
 
         context =  {
