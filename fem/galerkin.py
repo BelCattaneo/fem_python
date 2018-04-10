@@ -5,9 +5,6 @@ import functools
 def galerkin(size, temperatures, source):
     temp_matrix = create_matrix_from_inputs(temperatures, size)
 
-    stiffness_matrix_size = np.square(size)
-    stiffness_matrix = np.zeros((stiffness_matrix_size, stiffness_matrix_size))
-
     matrix = [4,-1,-2,-1],[-1,4,-1,-2],[-2,-1,4,-1],[-1,-2,-1,4]
     element_stifness_matrix = np.array(matrix)/6
     
@@ -111,8 +108,6 @@ def get_results(final_stiffness_matrix, final_temperature_indexes, forces_array)
                     matrix.append(final_stiffness_matrix[y, x])
             forces.append(forces_array[y] - acc)
     
-    print(matrix)
-    print(forces)
     size = np.sqrt(np.array(matrix).size)
     matrix = np.reshape(matrix, (int(size), int(size)))
     if len(forces) == 1:
@@ -125,7 +120,7 @@ def build_final_matrix(matrix, results):
     results_index = 0
     final_matrix = np.copy(matrix)
     size = np.array(results).size
-
+    print(size)
     if size == 1:
         final_matrix[1,1] = results[0]
     else:
@@ -133,11 +128,12 @@ def build_final_matrix(matrix, results):
         for column in final_matrix:
             y = 0
             for row in column:
-                if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < size-1 and y < size-1):
-                    final_matrix[x, y] = results[results_index]
-                    results_index += 1
-                
-                y += 1
+                if results_index < size:
+                    if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < size-1 and y < size-1):
+                        final_matrix[x, y] = results[results_index]
+                        results_index += 1
+                    
+                    y += 1
             x += 1
 
 

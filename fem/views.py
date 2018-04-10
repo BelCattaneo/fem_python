@@ -21,7 +21,7 @@ def calculate_temperatures(request):
     }
     source = int(request.GET.get('source'))
     method = request.GET.get('method')
-
+    print(method)
     if method == 'diferencias_finitas':
         results = finite_difference.diferencias_finitas(temperatures, source, size)
         print(results)

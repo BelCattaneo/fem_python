@@ -4,15 +4,11 @@ import functools
 
 def diferencias_finitas(temperatures, source, size):
     matrix = create_matrix_from_inputs(temperatures, size)
-    print(matrix)
     constant_matrix = build_constant_matrix(matrix, source)
-    print(constant_matrix)
     coeficient_matrix = build_coeficient_matrix(constant_matrix, matrix)
-    print(coeficient_matrix)
     results = get_results(constant_matrix, coeficient_matrix)
-    print(results)
     final_matrix = build_final_matrix(matrix, results)
-    print(final_matrix)
+
     return final_matrix
 
 def create_matrix_from_inputs(temperatures, size):
@@ -92,14 +88,14 @@ def build_final_matrix(matrix, results):
 
     x = 0
     for column in final_matrix:
-        print(x)
         y = 0
         for row in column:
-            print(y)
-            if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < size-1 and y < size-1):
-                final_matrix[x, y] = results[results_index]
-                results_index += 1
-            y += 1
+            if results_index < size:
+                    if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < size-1 and y < size-1):
+                        final_matrix[x, y] = results[results_index]
+                        results_index += 1
+                    
+                    y += 1
         x += 1
 
 
