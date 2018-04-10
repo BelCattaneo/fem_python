@@ -6,6 +6,7 @@ import functools
 
 from . import plots
 from . import finite_difference
+from . import galerkin
 
 def index(request):
     return render_to_response('fem/index.html')
@@ -23,6 +24,7 @@ def calculate_temperatures(request):
 
     if method == 'diferencias_finitas':
         results = finite_difference.diferencias_finitas(temperatures, source, size)
+        print(results)
         file_url = plots.create_plot(results)
 
         context =  {
@@ -30,7 +32,13 @@ def calculate_temperatures(request):
         }
 
     elif method == 'galerkin':
-        print('Metodo Galerkin')
+        results = galerkin.galerkin(size, temperatures, source)
+        print(results)
+        file_url = plots.create_plot(results)
+
+        context =  {
+            'fileUrl' : file_url
+        }
 
 
     return JsonResponse(context)
