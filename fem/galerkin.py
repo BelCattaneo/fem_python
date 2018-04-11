@@ -1,5 +1,4 @@
 import numpy as np
-import functools
 
 
 def galerkin(size, temperatures, source):
@@ -120,7 +119,8 @@ def build_final_matrix(matrix, results):
     results_index = 0
     final_matrix = np.copy(matrix)
     size = np.array(results).size
-    print(size)
+
+    
     if size == 1:
         final_matrix[1,1] = results[0]
     else:
@@ -128,8 +128,9 @@ def build_final_matrix(matrix, results):
         for column in final_matrix:
             y = 0
             for row in column:
+                print(np.array(column).size)
                 if results_index < size:
-                    if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < size-1 and y < size-1):
+                    if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < np.array(column).size-1 and y < np.array(column).size-1):
                         final_matrix[x, y] = results[results_index]
                         results_index += 1
                     

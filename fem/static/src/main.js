@@ -13,6 +13,8 @@ $( document ).ready(function() {
         method =  "diferencias_finitas";
       } else if( $("#galerkin").parent().hasClass("active")){
         method = "galerkin";
+      }else if( $("#error").parent().hasClass("active")){
+        method = "error";
       }
       
       if (size > 2) {
