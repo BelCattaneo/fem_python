@@ -19,7 +19,7 @@ $( document ).ready(function() {
       method = "analitica";
     }
 
-    if( Boolean($("#compare").parent().parent().attr("aria-expanded"))){
+    if( $("#compare").parent().parent().attr("aria-expanded") == "true"){
       compare = true;
       var method2;
 
