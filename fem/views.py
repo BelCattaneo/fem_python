@@ -7,6 +7,7 @@ import functools
 from . import plots
 from . import finite_difference
 from . import galerkin
+from . import resolucion_analitica
 from . import error
 
 def index(request):
@@ -22,34 +23,17 @@ def calculate_temperatures(request):
     }
     source = int(request.GET.get('source'))
     method = request.GET.get('method')
+    method2 = request.GET.get('method2')
+    compare = request.GET.get('compare')
 
+    print(compare)
     print(method)
-    if method == 'diferencias_finitas':
-        results = finite_difference.diferencias_finitas(temperatures, source, size)
-        print('-------------------------------------------')
-        print('diferencias_finitas')
-        print(results)
-        print('-------------------------------------------')
-        file_url = plots.create_plot(results)
-
-        context =  {
-        'fileUrl' : file_url
-        }
-        
-    elif method == 'galerkin':
-        results = galerkin.galerkin(size, temperatures, source)
-        print('-------------------------------------------')
-        print('galerkin')
-        print(results)
-        print('-------------------------------------------')
-        file_url = plots.create_plot(results)
-
-        context =  {
-        'fileUrl' : file_url
-        }
-
-    elif method == 'error':
-        error_matrix = error.get_error_matrix(size, temperatures, source)
+    print(method2)
+    
+    if compare == "true":
+        print("alkaspfgiubwfpbq wpiugvfb    WFEOU")
+        methods = {"method": method, "method2": method2}
+        error_matrix = error.get_error_matrix(size, temperatures, source, methods)
         print('-------------------------------------------')
         print('error')
         print(error_matrix)
@@ -59,6 +43,47 @@ def calculate_temperatures(request):
         context =  {
             'fileUrl' : file_url
         }
+
+    elif compare == "false":
+        
+        print(method)
+        if method == 'diferencias_finitas':
+            results = finite_difference.diferencias_finitas(temperatures, source, size)
+            print('-------------------------------------------')
+            print('diferencias_finitas')
+            print(results)
+            print('-------------------------------------------')
+            file_url = plots.create_plot(results)
+
+            context =  {
+            'fileUrl' : file_url
+            }
+            
+        elif method == 'galerkin':
+            results = galerkin.galerkin(size, temperatures, source)
+            print('-------------------------------------------')
+            print('galerkin')
+            print(results)
+            print('-------------------------------------------')
+            file_url = plots.create_plot(results)
+
+            context =  {
+            'fileUrl' : file_url
+            }
+
+        elif method == 'analitica':
+            results = resolucion_analitica.resolucion_analitica(size, temperatures, source)
+            print('-------------------------------------------')
+            print('analitica')
+            print(results)
+            print('-------------------------------------------')
+            file_url = plots.create_plot(results)
+        
+            context =  {
+                'fileUrl' : file_url
+            }
+
+       
 
 
 
