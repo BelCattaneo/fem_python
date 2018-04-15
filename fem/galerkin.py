@@ -128,7 +128,6 @@ def build_final_matrix(matrix, results):
         for column in final_matrix:
             y = 0
             for row in column:
-                print(np.array(column).size)
                 if results_index < size:
                     if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < np.array(column).size-1 and y < np.array(column).size-1):
                         final_matrix[x, y] = results[results_index]

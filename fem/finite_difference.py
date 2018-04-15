@@ -7,7 +7,6 @@ def diferencias_finitas(temperatures, source, size):
     constant_matrix = build_constant_matrix(matrix, source)
     coeficient_matrix = build_coeficient_matrix(constant_matrix, matrix)
     results = get_results(constant_matrix, coeficient_matrix)
-    print(results)
     final_matrix = build_final_matrix(matrix, results)
 
     return final_matrix

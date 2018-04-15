@@ -1,38 +1,79 @@
 import numpy as np
+import math
+from scipy import integrate
+
 
 def resolucion_analitica(size, temperatures, source):
-    results = get_results(size, temperatures, source)
+    method_temperatures = get_temperatures_I(temperatures, size)
+    print(method_temperatures.size)
+    method_source = get_temperatures_II(size, source)
+    print(method_source.size)
+
+    results = np.array(method_temperatures) + np.array(method_source)
 
     temp_matrix = create_matrix_from_inputs(temperatures, size)
 
     final_matrix = build_final_matrix(temp_matrix, results)
-    
+
     return final_matrix
 
-def get_results(size, temperatures, source):
-    results_temperature_matrix_size = size-2
-    results_matrix = []
-    
+def sumation(temperatures, x, y):
+    pi = math.pi
+
     t1 = temperatures["top"]
     t2 = temperatures["right"]
     t3 = temperatures["bottom"]
     t4 = temperatures["left"]
+    
+    integral_fn_x = lambda x : math.sin(n*pi*x)
+    integral_fn_y = lambda y : math.sin(n*pi*y)
+    
+    sum1 = sum2 = sum3 = sum4 = 0
 
+    for n in range(1, 100):
+        sum1 += ((math.sinh(n*pi*y)*math.sin(n*pi*x))/math.sinh(n*pi)) * t1 * (integrate.quad(integral_fn_x, 0, 1)[0])
+        sum2 += ((math.sinh(n*pi*(1-y))*math.sin(n*pi*x))/math.sinh(n*pi)) * t3 * (integrate.quad(integral_fn_x, 0, 1)[0])
+        sum3 += ((math.sinh(n*pi*x)*math.sin(n*pi*y))/math.sinh(n*pi)) * t2 * (integrate.quad(integral_fn_y, 0, 1)[0])
+        sum4 += ((math.sinh(n*pi*(1-x))*math.sin(n*pi*y))/math.sinh(n*pi)) * t4 * (integrate.quad(integral_fn_y, 0, 1)[0])
 
-    for j in range(0, results_temperature_matrix_size):
+    return 2*(sum1+sum2+sum3+sum4)
+
+def get_temperatures_I(temperatures, size):
+    
+    step = 1 / (size - 1)
+    interval = np.arange(step, 1, step)[0:(size-2)]
+    results_matrix = []
+    for y in interval:
         row = []
-        for i in range(0, results_temperature_matrix_size):
-            x = (i+1)/(results_temperature_matrix_size+1)
-            y = (j+1)/(results_temperature_matrix_size+1)
+        for x in interval:
+            t = sumation(temperatures, x, y)
+            row.append(t)
+        results_matrix.insert(0, row)   
 
-            temp = ((((t2-t4)*(t1-t3))*((x+y)+(x*(1-x)+y*(1-y))))+t4*(t1-t3+t2-t4))/(t1-t3+t2-t4)
+    return np.array(results_matrix).flatten()
+    
 
-            row.append(temp)
+def get_temperatures_II(size, source):
+    step = 1 / (size - 1)
+    interval = np.arange(-1/2+step, 1/2, step)[0:(size-2)]
+    t0 = 0
+    pi = math.pi
+    results_matrix = []
+    for y in interval:
+        row = []
+        for x in interval:
+            sum=0
+            for n in range(0, 100):
+                sum += (((-1)**n)*math.cosh((2*n + 1)*pi*x)*math.cos((2*n+1)*pi*y))/((((2*n+1)*pi/2)**3)*math.cosh((2*n+1)*pi/2))
 
-        results_matrix.insert(0, row)
+            t= (1/2)*(1-(2*y)**2) - 2*sum
+            row.append(source*t/4)
+        
+        results_matrix.insert(0, row)   
+    
+    
+    return np.array(results_matrix).flatten()
 
-    results = np.array(results_matrix).flatten()
-    return results
 
 def create_matrix_from_inputs(temperatures, size):
     matrix = np.zeros((size, size), dtype=np.int)
@@ -59,7 +100,6 @@ def build_final_matrix(matrix, results):
         for column in final_matrix:
             y = 0
             for row in column:
-                print(np.array(column).size)
                 if results_index < size:
                     if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < np.array(column).size-1 and y < np.array(column).size-1):
                         final_matrix[x, y] = results[results_index]
@@ -98,3 +138,7 @@ def choose_temperature(size, temperatures, x, y):
         return temperatures["bottom"]
 
     return 0
+    
+    
+    
+    

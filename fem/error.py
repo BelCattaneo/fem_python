@@ -7,10 +7,11 @@ from . import resolucion_analitica
 
 def get_error_matrix(size, temperatures, source, methods):
     
-    method_1_result = finite_difference.diferencias_finitas(temperatures, source, size)
-    method_2_result = galerkin.galerkin(size, temperatures, source)
+    method_1_result = get_results(size, temperatures, source, methods["method"])
+    method_2_result = get_results(size, temperatures, source, methods["method2"])
+    print(method_1_result)
+    print(method_2_result)
     
-
     diff = np.subtract(method_1_result, method_2_result)
     print(diff)
 
