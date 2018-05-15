@@ -36,8 +36,9 @@ def build_constant_matrix(matrix, source):
                 constants.append(constante)
             x += 1
         y += 1
-
-    return np.array(constants) + source 
+    element_area = (1 / (np.sqrt(np.array(matrix).size) -1)) ** 2
+    
+    return np.array(constants) + (source * element_area) 
 
 def build_coeficient_matrix(constant_matrix, matrix):
     matrix_coeficients = []

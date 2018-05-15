@@ -21,7 +21,7 @@ def calculate_temperatures(request):
         'bottom' : int(request.GET.get('bottom')),
         'left' : int(request.GET.get('left')),
     }
-    source = int(request.GET.get('source'))
+    source = int(request.GET.get('source'))  * (1000)
     method = request.GET.get('method')
     method2 = request.GET.get('method2')
     compare = request.GET.get('compare')
@@ -31,13 +31,13 @@ def calculate_temperatures(request):
     print(method2)
     
     if compare == "true":
-        print("alkaspfgiubwfpbq wpiugvfb    WFEOU")
+        print("COMPARACION")
         methods = {"method": method, "method2": method2}
         error_matrix = error.get_error_matrix(size, temperatures, source, methods)
-        print('-------------------------------------------')
-        print('error')
-        print(error_matrix)
-        print('-------------------------------------------')
+        #print('-------------------------------------------')
+        #print('error')
+        #print(error_matrix)
+        #print('-------------------------------------------')
         file_url = plots.create_plot(error_matrix)
     
         context =  {
@@ -52,6 +52,7 @@ def calculate_temperatures(request):
             print('-------------------------------------------')
             print('diferencias_finitas')
             print(results)
+            print(np.amax(results))
             print('-------------------------------------------')
             file_url = plots.create_plot(results)
 
@@ -64,6 +65,7 @@ def calculate_temperatures(request):
             print('-------------------------------------------')
             print('galerkin')
             print(results)
+            print(np.amax(results))
             print('-------------------------------------------')
             file_url = plots.create_plot(results)
 
@@ -76,6 +78,7 @@ def calculate_temperatures(request):
             print('-------------------------------------------')
             print('analitica')
             print(results)
+            print(np.amax(results))
             print('-------------------------------------------')
             file_url = plots.create_plot(results)
         
@@ -83,8 +86,14 @@ def calculate_temperatures(request):
                 'fileUrl' : file_url
             }
 
-       
+    temperatures = {"top": 0, "right": 0, "bottom": 0, "left": 0}
 
 
+    for n in range (5, 50, 5):
+        result1 = np.amax(finite_difference.diferencias_finitas(temperatures, 1000, n))
+        result2 = np.amax(galerkin.galerkin(n, temperatures, 1000))
+        result3 = np.amax(resolucion_analitica.resolucion_analitica(n, temperatures, 1000))
+        print(str(n) + ": " + str(result1) + " | " +  str(result2) + " | " + str(result3))
+    
 
     return JsonResponse(context)

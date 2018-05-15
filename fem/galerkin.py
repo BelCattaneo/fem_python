@@ -4,13 +4,11 @@ import numpy as np
 def galerkin(size, temperatures, source):
     temp_matrix = create_matrix_from_inputs(temperatures, size)
 
-    matrix = [4,-1,-2,-1],[-1,4,-1,-2],[-2,-1,4,-1],[-1,-2,-1,4]
+    matrix = [[4,-1,-2,-1],[-1,4,-1,-2],[-2,-1,4,-1],[-1,-2,-1,4]]
     element_stifness_matrix = np.array(matrix)/6
-    
     stiffness_and_force_matrix = stiffness_and_forces_matrix(size, element_stifness_matrix, source)
-
+    
     temperature_array = create_temperature_array(size, temperatures)
-
     final_problem_matrixes = final_problem_arrangement(temperature_array, stiffness_and_force_matrix)
 
     results = get_results(final_problem_matrixes["final_stiffness_matrix"], final_problem_matrixes["final_temperature_indexes"], stiffness_and_force_matrix["forces_array"])
@@ -38,6 +36,7 @@ def stiffness_and_forces_matrix(size, element_stifness_matrix, source):
     elements = get_elements_array(size)
     stiffness_matrix_indexes = get_stiffness_matrix_indexes(size, elements)
 
+    element_area = (1/stiffness_matrix_size)
     forces_array = np.zeros(stiffness_matrix_size)
 
     for y in  range(0, len(stiffness_matrix_indexes)):
@@ -45,7 +44,7 @@ def stiffness_and_forces_matrix(size, element_stifness_matrix, source):
         
         i = 0
         for x in m:
-            forces_array[x] += source/4
+            forces_array[x] += (source*element_area)/4
 
             j=0
             for z in m:
@@ -54,7 +53,9 @@ def stiffness_and_forces_matrix(size, element_stifness_matrix, source):
                 j+=1
 
             i+=1
-          
+    
+    print(stiffness_matrix)
+    print(forces_array)
     return {"stiffness_matrix": stiffness_matrix, "forces_array": forces_array }       
 
 def create_temperature_array(size, temperatures):
@@ -69,7 +70,6 @@ def create_temperature_array(size, temperatures):
     
 def final_problem_arrangement(temperature_array, stiffness_and_forces_matrix):
     stiffness_matrix = stiffness_and_forces_matrix["stiffness_matrix"] 
-
     final_temperature_indexes = []
 
     t = 0
@@ -92,14 +92,13 @@ def final_problem_arrangement(temperature_array, stiffness_and_forces_matrix):
 def get_results(final_stiffness_matrix, final_temperature_indexes, forces_array):
     matrix = []
     forces = []
-    
+
     #recorro la matriz por cada indice
     for y in range(0, len(forces_array)):
         #si el indice esta en la lista de indices
         if y in final_temperature_indexes:
             #sumo los valores de las constantes
             acc = 0
-            row =[]
             for x in range(0, len(forces_array)):
                 if x not in final_temperature_indexes:
                     acc += final_stiffness_matrix[y, x]
@@ -109,6 +108,7 @@ def get_results(final_stiffness_matrix, final_temperature_indexes, forces_array)
     
     size = np.sqrt(np.array(matrix).size)
     matrix = np.reshape(matrix, (int(size), int(size)))
+
     if len(forces) == 1:
         result = [forces[0]/matrix[0]]
     else:
@@ -199,3 +199,43 @@ def choose_temperature(size, temperatures, x, y):
         return temperatures["bottom"]
 
     return 0
+
+'''
+
+[[ 0.67 -0.17  0.    0.   -0.   -0.17  0.    0.    0.    0.    0.    0.    0.    0.    0.    0. ]
+ [-0.17  1.33 -0.17  0.   -0.17 -0.67 -0.17  0.    0.    0.    0.    0.    0.    0.    0.    0. ]
+ [ 0.   -0.17  1.33 -0.17  0.   -0.17 -0.67 -0.17  0.    0.    0.    0.    0.    0.    0.    0. ]
+ [ 0.    0.   -0.17  0.67  0.    0.   -0.17 -0.33  0.    0.    0.    0.    0.    0.    0.    0. ]
+ [-0.33 -0.17  0.    0.    1.33 -0.33  0.    0.   -0.33 -0.17  0.    0.    0.    0.    0.    0. ]
+ [-0.17 -0.67 -0.17  0.   -0.33  2.67 -0.33  0.   -0.17 -0.67 -0.17  0.    0.    0.    0.    0. ]
+ [ 0.   -0.17 -0.67 -0.17  0.   -0.33  2.67 -0.33  0.   -0.17 -0.67 -0.17  0.    0.    0.    0. ]
+ [ 0.    0.   -0.17 -0.33  0.    0.   -0.33  1.33  0.    0.   -0.17 -0.33  0.    0.    0.    0. ]
+ [ 0.    0.    0.    0.   -0.33 -0.17  0.    0.    1.33 -0.33  0.    0.   -0.33 -0.17  0.    0. ]
+ [ 0.    0.    0.    0.   -0.17 -0.67 -0.17  0.   -0.33  2.67 -0.33  0.   -0.17 -0.67 -0.17  0. ]
+ [ 0.    0.    0.    0.    0.   -0.17 -0.67 -0.17  0.   -0.33  2.67 -0.33  0.   -0.17 -0.67 -0.17]
+ [ 0.    0.    0.    0.    0.    0.   -0.17 -0.33  0.    0.   -0.33  1.33  0.    0.   -0.17 -0.33]
+ [ 0.    0.    0.    0.    0.    0.    0.    0.   -0.33 -0.17  0.    0.    0.67 -0.17  0.    0. ]
+ [ 0.    0.    0.    0.    0.    0.    0.    0.   -0.17 -0.67 -0.17  0.   -0.17  1.33 -0.17  0. ]
+ [ 0.    0.    0.    0.    0.    0.    0.    0.    0.   -0.17 -0.67 -0.17  0.   -0.17  1.33 -0.17]
+ [ 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   -0.17 -0.33  0.    0.   -0.17  0.67]]
+
+[[ 23.33  -3.33   0.     0.   -16.67  -0.17   0.     0.     0.     0.      0.     0.     0.    0.     0.      0.]
+ [ -5.83  26.67  -3.33   0.    -8.33  -0.67  -0.17   0.     0.     0.      0.     0.     0.    0.     0.      0.]
+ [  0.    -3.33  26.67  -4.17   0.    -0.17  -0.67  -5.     0.     0.      0.     0.     0.    0.     0.      0.]
+ [  0.     0.    -3.33  16.67   0.     0.    -0.17 -10.     0.     0.      0.     0.     0.    0.     0.      0.]
+ [-11.67  -3.33   0.     0.    66.67  -0.33   0.     0.   -16.67  -0.17    0.     0.     0.    0.     0.      0.]
+ [ -5.83 -13.33  -3.33   0.   -16.67   2.67  -0.33   0.    -8.33  -0.67   -0.17   0.     0.    0.     0.      0.]
+ [  0.    -3.33 -13.33  -4.17   0.    -0.33   2.67 -10.     0.    -0.17   -0.67  -5.     0.    0.     0.      0.]
+ [  0.     0.    -3.33  -8.33   0.     0.    -0.33  40.     0.     0.     -0.17 -10.     0.    0.     0.      0.]
+ [  0.     0.     0.     0.   -16.67  -0.17   0.     0.    66.67  -0.33    0.     0.   -15.   -6.67   0.      0.]
+ [  0.     0.     0.     0.    -8.33  -0.67  -0.17   0.   -16.67   2.67   -0.33   0.    -7.5 -26.67  -6.67    0.]
+ [  0.     0.     0.     0.     0.    -0.17  -0.67  -5.     0.    -0.33    2.67 -10.     0.   -6.67 -26.67   -5.83]
+ [  0.     0.     0.     0.     0.     0.    -0.17 -10.     0.     0.     -0.33  40.     0.    0.    -6.67  -11.67]
+ [  0.     0.     0.     0.     0.     0.     0.     0.   -16.67  -0.17    0.     0.    30.   -6.67   0.      0.]
+ [  0.     0.     0.     0.     0.     0.     0.     0.    -8.33  -0.67   -0.17   0.    -7.5  53.33  -6.67    0.]
+ [  0.     0.     0.     0.     0.     0.     0.     0.     0.    -0.17   -0.67  -5.     0.   -6.67  53.33   -5.83]
+ [  0.     0.     0.     0.     0.     0.     0.     0.     0.     0.     -0.17 -10.     0.    0.    -6.67   23.33]]
+
+
+
+'''

@@ -30,7 +30,7 @@ def sumation(temperatures, x, y):
     
     sum1 = sum2 = sum3 = sum4 = 0
 
-    for n in range(1, 100):
+    for n in range(1, 50):
         sum1 += ((math.sinh(n*pi*y)*math.sin(n*pi*x))/math.sinh(n*pi)) * t1 * (integrate.quad(integral_fn_x, 0, 1)[0])
         sum2 += ((math.sinh(n*pi*(1-y))*math.sin(n*pi*x))/math.sinh(n*pi)) * t3 * (integrate.quad(integral_fn_x, 0, 1)[0])
         sum3 += ((math.sinh(n*pi*x)*math.sin(n*pi*y))/math.sinh(n*pi)) * t2 * (integrate.quad(integral_fn_y, 0, 1)[0])
@@ -56,18 +56,20 @@ def get_temperatures_I(temperatures, size):
 def get_temperatures_II(size, source):
     step = 1 / (size - 1)
     interval = np.arange(-1/2+step, 1/2, step)[0:(size-2)]
-    t0 = 0
     pi = math.pi
+    a = 1/2
+    
     results_matrix = []
     for y in interval:
         row = []
         for x in interval:
             sum=0
-            for n in range(0, 100):
-                sum += (((-1)**n)*math.cosh((2*n + 1)*pi*x)*math.cos((2*n+1)*pi*y))/((((2*n+1)*pi/2)**3)*math.cosh((2*n+1)*pi/2))
-
-            t= (1/2)*(1-(2*y)**2) - 2*sum
-            row.append(source*t/4)
+            for n in range(0, 50):
+                X = x/a
+                Y = y/a
+                sum += (((-1)**n)*math.cosh((2*n + 1)*pi/2*X)*math.cos((2*n+1)*pi/2*Y))/((((2*n+1)*pi/2)**3)*math.cosh((2*n+1)*pi/2))
+            t= (1/2)*(1-Y**2) - 2*sum
+            row.append(source*(a**2)*t)
         
         results_matrix.insert(0, row)   
     
