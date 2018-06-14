@@ -85,15 +85,16 @@ def calculate_temperatures(request):
             context =  {
                 'fileUrl' : file_url
             }
+            
+    return JsonResponse(context)
+''' 
 
     temperatures = {"top": 0, "right": 0, "bottom": 0, "left": 0}
-
 
     for n in range (5, 50, 5):
         result1 = np.amax(finite_difference.diferencias_finitas(temperatures, 1000, n))
         result2 = np.amax(galerkin.galerkin(n, temperatures, 1000))
         result3 = np.amax(resolucion_analitica.resolucion_analitica(n, temperatures, 1000))
         print(str(n) + ": " + str(result1) + " | " +  str(result2) + " | " + str(result3))
-    
+'''    
 
-    return JsonResponse(context)

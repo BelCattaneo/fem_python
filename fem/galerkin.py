@@ -5,7 +5,7 @@ def galerkin(size, temperatures, source):
     temp_matrix = create_matrix_from_inputs(temperatures, size)
 
     matrix = [[4,-1,-2,-1],[-1,4,-1,-2],[-2,-1,4,-1],[-1,-2,-1,4]]
-    element_stifness_matrix = np.array(matrix)/6
+    element_stifness_matrix = np.array(matrix)*5/15
     stiffness_and_force_matrix = stiffness_and_forces_matrix(size, element_stifness_matrix, source)
     
     temperature_array = create_temperature_array(size, temperatures)
@@ -36,11 +36,15 @@ def stiffness_and_forces_matrix(size, element_stifness_matrix, source):
     elements = get_elements_array(size)
     stiffness_matrix_indexes = get_stiffness_matrix_indexes(size, elements)
 
-    element_area = (1/stiffness_matrix_size)
+    elements = (np.sqrt(stiffness_matrix_size)-1)**2
+    element_area = (1/elements)
+    #element_area = (1/stiffness_matrix_size)
+    print("elementos")
+    print(elements)
     forces_array = np.zeros(stiffness_matrix_size)
 
     for y in  range(0, len(stiffness_matrix_indexes)):
-        m=sorted(stiffness_matrix_indexes[y])
+        m = sorted(stiffness_matrix_indexes[y])
         
         i = 0
         for x in m:
@@ -54,8 +58,6 @@ def stiffness_and_forces_matrix(size, element_stifness_matrix, source):
 
             i+=1
     
-    print(stiffness_matrix)
-    print(forces_array)
     return {"stiffness_matrix": stiffness_matrix, "forces_array": forces_array }       
 
 def create_temperature_array(size, temperatures):
@@ -112,6 +114,8 @@ def get_results(final_stiffness_matrix, final_temperature_indexes, forces_array)
     if len(forces) == 1:
         result = [forces[0]/matrix[0]]
     else:
+        print(np.array(matrix))
+        print(np.array(forces))
         result = np.linalg.solve(np.array(matrix), np.array(forces))                
     return result
 

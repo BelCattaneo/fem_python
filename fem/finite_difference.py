@@ -81,7 +81,8 @@ def build_coeficient_matrix(constant_matrix, matrix):
    
 def get_results(constant_matrix, coeficient_matrix):
     results = np.linalg.solve(np.array(coeficient_matrix), np.array(constant_matrix))
-    
+    print(coeficient_matrix)
+    print(constant_matrix)
     return np.linalg.solve(np.array(coeficient_matrix), np.array(constant_matrix))
 
 def build_final_matrix(matrix, results):
