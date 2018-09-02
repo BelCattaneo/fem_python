@@ -2,7 +2,7 @@ import numpy as np
 import functools
 
 
-def diferencias_finitas(temperatures, source, size):
+def diferencias_finitas(size, temperatures, source):
 
     matrix = create_matrix_from_inputs(temperatures, size)
     constant_matrix = build_constant_matrix(matrix, source)

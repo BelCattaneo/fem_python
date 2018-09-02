@@ -32,7 +32,7 @@ def get_error_average(size, temperatures, source, methods):
 def get_results(size, temperatures, source, method):
 
     if method == 'diferencias_finitas':
-        results = finite_difference.diferencias_finitas(temperatures, source, size)
+        results = finite_difference.diferencias_finitas(size, temperatures, source)
             
     elif method == 'galerkin':
         results = galerkin.galerkin(size, temperatures, source)

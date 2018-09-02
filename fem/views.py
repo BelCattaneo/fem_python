@@ -48,7 +48,7 @@ def calculate_temperatures(request):
         
         print(method)
         if method == 'diferencias_finitas':
-            results = finite_difference.diferencias_finitas(temperatures, source, size)
+            results = finite_difference.diferencias_finitas(size, temperatures, source)
             print('-------------------------------------------')
             print('diferencias_finitas')
             print(results)
