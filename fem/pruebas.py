@@ -6,11 +6,6 @@ import finite_difference
 import resolucion_analitica
 import error2
 
-import time
-
-start_time = time.time()
-
-
 
 filename = "log3.txt"
 file = open(filename, "w")
@@ -358,7 +353,5 @@ file.write("\n")
 file.write("\n")
 
 #------------------------------------------------------------------------------------
-
-file.write("--- %s minutos ---" % (time.time() - start_time)/60)
 
 file.close()
