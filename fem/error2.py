@@ -1,12 +1,12 @@
 import numpy as np
 import math
 
-from . import finite_difference
-from . import galerkin
-from . import resolucion_analitica
+import finite_difference
+import galerkin
+import resolucion_analitica
 
 
-def get_error_matrix(size, temperatures, source, methods):
+def get_error_average(size, temperatures, source, methods):
     
     method_1_result = get_results(size, temperatures, source, methods["method"])
     method_2_result = get_results(size, temperatures, source, methods["method2"])
@@ -27,7 +27,7 @@ def get_error_matrix(size, temperatures, source, methods):
                 
     error_average = np.sum(results)/(np.array(results)).size
     print("Size: " + str(size) + "Error Promedio: " + str(error_average))
-    return error_matrix
+    return error_average
 
 def get_results(size, temperatures, source, method):
 

@@ -36,8 +36,9 @@ def sumation(temperatures, x, y):
 
 def get_temperatures_I(temperatures, size):
     
-    step = 1 / (size)
-    interval = np.arange(step/2, 1, step)[0:(size)]
+    step = 1 / (size-1)
+    interval = np.arange(step, 1.0, step)[0:(size-2)]
+
     results_matrix = []
     for y in interval:
         row = []
@@ -50,8 +51,9 @@ def get_temperatures_I(temperatures, size):
     
 
 def get_temperatures_II(size, source):
-    step = 1 / (size)
-    interval = np.arange((-1/2+step/2), 1/2, step)[0:(size)]
+    step = 1 / (size-1)
+    interval = np.arange((-1/2), 1/2, step)[1:(size-1)]
+    
     pi = math.pi
     a = 1/2
     
@@ -77,7 +79,7 @@ def build_final_matrix(results):
 
     
     if size == 1:
-        final_matrix[1,1] = results[0]
+        final_matrix[0,0] = results[0]
     else:
         x = 0
         for column in final_matrix:

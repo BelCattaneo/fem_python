@@ -21,7 +21,8 @@ def calculate_temperatures(request):
         'bottom' : int(request.GET.get('bottom')),
         'left' : int(request.GET.get('left')),
     }
-    source = int(request.GET.get('source'))  * (1000)
+    # Se multiplica a la fuente por 10 a la 6 t se divide por k que vale 1000
+    source = int(request.GET.get('source'))  * (1000000) / 1000
     method = request.GET.get('method')
     method2 = request.GET.get('method2')
     compare = request.GET.get('compare')
@@ -34,10 +35,6 @@ def calculate_temperatures(request):
         print("COMPARACION")
         methods = {"method": method, "method2": method2}
         error_matrix = error.get_error_matrix(size, temperatures, source, methods)
-        #print('-------------------------------------------')
-        #print('error')
-        #print(error_matrix)
-        #print('-------------------------------------------')
         file_url = plots.create_plot(error_matrix)
     
         context =  {
@@ -87,14 +84,6 @@ def calculate_temperatures(request):
             }
             
     return JsonResponse(context)
-''' 
 
-    temperatures = {"top": 0, "right": 0, "bottom": 0, "left": 0}
 
-    for n in range (5, 50, 5):
-        result1 = np.amax(finite_difference.diferencias_finitas(temperatures, 1000, n))
-        result2 = np.amax(galerkin.galerkin(n, temperatures, 1000))
-        result3 = np.amax(resolucion_analitica.resolucion_analitica(n, temperatures, 1000))
-        print(str(n) + ": " + str(result1) + " | " +  str(result2) + " | " + str(result3))
-'''    
 

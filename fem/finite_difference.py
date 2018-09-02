@@ -3,11 +3,12 @@ import functools
 
 
 def diferencias_finitas(temperatures, source, size):
+
     matrix = create_matrix_from_inputs(temperatures, size)
     constant_matrix = build_constant_matrix(matrix, source)
     coeficient_matrix = build_coeficient_matrix(constant_matrix, matrix)
     results = get_results(constant_matrix, coeficient_matrix)
-    final_matrix = build_final_matrix(matrix, results)
+    final_matrix = build_final_matrix(results)
 
     return final_matrix
 
@@ -80,35 +81,30 @@ def build_coeficient_matrix(constant_matrix, matrix):
     return np.array(matrix_coeficients)
    
 def get_results(constant_matrix, coeficient_matrix):
-    results = np.linalg.solve(np.array(coeficient_matrix), np.array(constant_matrix))
-    print(coeficient_matrix)
-    print(constant_matrix)
     return np.linalg.solve(np.array(coeficient_matrix), np.array(constant_matrix))
 
-def build_final_matrix(matrix, results):
+def build_final_matrix(results):
     results_index = 0
-    final_matrix = np.copy(matrix)
-    size = np.array(results).size
+    size =np.int(np.sqrt(np.array(results).size))
+    final_matrix = np.zeros((size, size), dtype=np.int)
 
+    
     if size == 1:
-        final_matrix[1,1] = results[0]
+        final_matrix[0,0] = results[0]
     else:
         x = 0
         for column in final_matrix:
             y = 0
             for row in column:
-                if results_index < size:
-                    if (final_matrix[x,y] == 0 and x > 0 and y > 0 and x < np.array(column).size-1 and y < np.array(column).size-1):
-                        final_matrix[x, y] = results[results_index]
-                        results_index += 1
+                if y < size:
+                    final_matrix[x, y] = results[results_index]
+                    results_index += 1
                     
-                    y += 1
+                y += 1
             x += 1
 
 
     return final_matrix
-
-
 
 def coeficients_row(constant_matrix, matrix, x, y, neighbours):
     coeficients_row = np.zeros(np.int(constant_matrix.size))
