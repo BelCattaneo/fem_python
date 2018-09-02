@@ -27,6 +27,9 @@ def calculate_temperatures(request):
     method2 = request.GET.get('method2')
     compare = request.GET.get('compare')
 
+    print(size)
+    print(temperatures)
+    print(source)
     print(compare)
     print(method)
     print(method2)
