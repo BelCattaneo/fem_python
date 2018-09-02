@@ -11,7 +11,7 @@ def get_error_matrix(size, temperatures, source, methods):
     method_1_result = get_results(size, temperatures, source, methods["method"])
     method_2_result = get_results(size, temperatures, source, methods["method2"])
     
-    diff = np.subtract(method_1_result, method_2_result)
+    diff = np.subtract(method_2_result, method_1_result)
 
     error_matrix_size = size-2
     error_matrix = np.zeros((error_matrix_size, error_matrix_size), dtype=np.int)
