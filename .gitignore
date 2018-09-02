@@ -1,2 +1,7 @@
 __pycache__
 node_modules
+plots
+__pycache__/
+*.txt
+*.log
+.vscode
