@@ -15,6 +15,7 @@ def index(request):
     return render_to_response('fem/index.html')
 
 def calculate_temperatures(request):
+    print("LLALALAAA")
     size = int(request.GET.get('size'))
     temperatures = {
         'top' : int(request.GET.get('top')),

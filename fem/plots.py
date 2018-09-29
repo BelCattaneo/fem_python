@@ -8,7 +8,6 @@ import os
 
 def create_plot(final_matrix):
     plt.clf()
-    print("Lalalaaaaa")
     """ Si mando array de resultados uso esta parte. """
     """results_array = np.array(results)
     size = results_array.size
@@ -17,10 +16,11 @@ def create_plot(final_matrix):
     
 
     data = np.array(final_matrix)
+    print(data)
     fig, axis = plt.subplots()
      
     heatmap = axis.pcolor(data, cmap=plt.cm.jet) 
-
+    print(heatmap)
     axis.invert_yaxis()
 
     plt.axis('off')
@@ -30,6 +30,7 @@ def create_plot(final_matrix):
     fig.set_size_inches(6.5, 5)
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'plots')
+    print(path)
     name ='temp-matrix-' + str(np.random.random_integers(50)) + '.png'
     plt.savefig( os.path.join(path, name), dpi=100)
 
