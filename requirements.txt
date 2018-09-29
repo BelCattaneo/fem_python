@@ -9,6 +9,7 @@ decorator==4.2.1
 Django==2.0.3
 django-widget-tweaks==1.4.2
 entrypoints==0.2.3
+gunicorn==19.9.0
 html5lib==1.0.1
 idna==2.6
 ipykernel==4.8.2
