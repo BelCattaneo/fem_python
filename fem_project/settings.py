@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE_CLASSES = ('whitenoise.middleware.WhiteNoiseMiddleware')
+
 ROOT_URLCONF = 'fem_project.urls'
 
 TEMPLATES = [
@@ -126,3 +128,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "fem/static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"),
 ]
+
+#Whitenoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
