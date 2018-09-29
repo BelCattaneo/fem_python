@@ -1,1 +1,1 @@
-worker: python3 manage.py runserver
+web: gunicorn fem_project.wsgi --log-file -
