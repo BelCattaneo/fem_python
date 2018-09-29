@@ -10,6 +10,7 @@ from . import galerkin
 from . import resolucion_analitica
 from . import error
 
+
 def index(request):
     return render_to_response('fem/index.html')
 
@@ -54,6 +55,7 @@ def calculate_temperatures(request):
             print(results)
             print(np.amax(results))
             print('-------------------------------------------')
+            print("shutil")
             file_url = plots.create_plot(results)
 
             context =  {
@@ -67,6 +69,7 @@ def calculate_temperatures(request):
             print(results)
             print(np.amax(results))
             print('-------------------------------------------')
+            print(plots.create_plot())
             file_url = plots.create_plot(results)
 
             context =  {
