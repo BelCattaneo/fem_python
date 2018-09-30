@@ -26,7 +26,7 @@ def sumation(temperatures, x, y):
     
     sum1 = sum2 = sum3 = sum4 = 0
 
-    for n in range(1, 50):
+    for n in range(1, 5):
         sum1 += ((math.sinh(n*pi*y)*math.sin(n*pi*x))/math.sinh(n*pi)) * t1 * (integrate.quad(integral_fn_x, 0, 1)[0])
         sum2 += ((math.sinh(n*pi*(1-y))*math.sin(n*pi*x))/math.sinh(n*pi)) * t3 * (integrate.quad(integral_fn_x, 0, 1)[0])
         sum3 += ((math.sinh(n*pi*x)*math.sin(n*pi*y))/math.sinh(n*pi)) * t2 * (integrate.quad(integral_fn_y, 0, 1)[0])
@@ -62,7 +62,7 @@ def get_temperatures_II(size, source):
         row = []
         for x in interval:
             sum=0
-            for n in range(0, 50):
+            for n in range(0, 5):
                 X = x/a
                 Y = y/a
                 sum += (((-1)**n)*math.cosh((2*n + 1)*pi/2*X)*math.cos((2*n+1)*pi/2*Y))/((((2*n+1)*pi/2)**3)*math.cosh((2*n+1)*pi/2))
