@@ -52,8 +52,7 @@ $( document ).ready(function() {
               dataType: 'json',
               success: function (data) {
                 if (data) {
-                  console.log(data.fileUrl);
-                  $("#plot").attr("src", data.fileUrl)
+                  $("#plot").attr("src", data.fileUrl);
                 }
               }
             });
@@ -62,6 +61,7 @@ $( document ).ready(function() {
           }
 
         } else {
+          $("#temperature-plot").append('<div id="spinner"><i class="fa fa-cog fa-spin" style="font-size:24px"></i></div>')
           $.ajax({
             url: '/ajax/calculate_temperatures/',
             data: {
@@ -77,8 +77,8 @@ $( document ).ready(function() {
             dataType: 'json',
             success: function (data) {
               if (data) {
-                console.log(data.fileUrl);
-                $("#plot").attr("src", data.fileUrl)
+                $("#spinner").remove();
+                $("#plot").attr("src", data.fileUrl);
               }
             }
           });
