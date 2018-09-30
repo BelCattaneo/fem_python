@@ -24,7 +24,7 @@ def calculate_temperatures(request):
         'left' : int(request.GET.get('left')),
     }
     # Se multiplica a la fuente por 10 a la 6 t se divide por k que vale 1000
-    source = int(request.GET.get('source'))  * (1000000) / 1000
+    source = float(request.GET.get('source'))  * (1000000) / 1000
     method = request.GET.get('method')
     method2 = request.GET.get('method2')
     compare = request.GET.get('compare')
