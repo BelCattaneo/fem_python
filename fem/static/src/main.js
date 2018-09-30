@@ -61,7 +61,7 @@ $( document ).ready(function() {
           }
 
         } else {
-          $("#temperature-plot").append('<div id="spinner"><i class="fa fa-cog fa-spin" style="font-size:24px"></i></div>')
+          $("#temperature-plot").empty().append('<div id="spinner"><i class="fa fa-cog fa-spin" style="font-size:24px"></i></div>')
           $.ajax({
             url: '/ajax/calculate_temperatures/',
             data: {
