@@ -16,9 +16,11 @@ def create_plot(final_matrix):
     
 
     data = np.array(final_matrix)
+    print(data)
     fig, axis = plt.subplots()
      
     heatmap = axis.pcolor(data, cmap=plt.cm.jet) 
+    print(heatmap)
     axis.invert_yaxis()
 
     plt.axis('off')
@@ -27,12 +29,9 @@ def create_plot(final_matrix):
     plt.colorbar(heatmap)
     fig.set_size_inches(6.5, 5)
 
-    #path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'plots')
-    path = os.path.join('https://fem-python.herokuapp.com', 'static', 'plots')
-    
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'plots')
     print(path)
     name ='temp-matrix-' + str(np.random.random_integers(50)) + '.png'
-    print(os.path.join(path, name))
     plt.savefig( os.path.join(path, name), dpi=100)
 
     return '/static/plots/' + name
